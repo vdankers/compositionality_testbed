@@ -1,0 +1,138 @@
+prepend shift reverse P W C E , prepend shift prepend copy V V K Q P , X C S X G , Y N P Q Y	Y N P Q Y C S X G V V K Q P X C W P E
+prepend shift prepend A V C I , copy copy shift X N V I U , reverse copy shift R X P Z K	R K Z P X V I U X A V C I N
+prepend shift prepend X L Z X , reverse reverse X Y H A , copy reverse copy copy reverse E G K	E G K Y H A X L Z X X
+prepend shift N Z X , echo shift echo C G I L M	G I L M M C C Z X N
+shift append reverse prepend shift echo F W Q T , reverse shift Y A I D S , shift E S Y	T T Q W A I D S Y S Y E F
+shift prepend shift reverse shift copy shift Z W K D C , reverse append reverse append shift shift J Q M J L , shift F C M U , copy shift echo echo X D X R F	F F F R X D M J L J Q C M U F Z C D K W X
+prepend shift shift P I H , echo append echo shift reverse X G D , copy S X S Z	G X D D S X S Z Z H P I
+prepend K E D M Y , prepend shift L P U U X , reverse prepend shift reverse D U L G , echo I H O I	G D U L I I O H I P U U X L K E D M Y
+prepend shift append shift shift X C R P T , R Z L V N , prepend echo copy copy W Y M G , echo H P B Z	H P B Z Z W Y M G G P T X C R Z L V N R
+prepend prepend shift shift reverse A H S X , shift X R U J , shift echo reverse copy A K K L I	L K K A A I R U J X H A X S
+echo echo echo prepend shift reverse copy reverse echo copy J K Q I B , copy prepend M A J I , echo V J E L H	V J E L H H M A J I K Q I B B J J J J
+prepend shift echo copy shift shift P U J , shift copy L B B H	B B H L P U U J
+append echo reverse H L P E , copy append Z K M I E , copy prepend shift L Y W W , P P Y C K	E P L H H Z K M I E P P Y C K Y W W L
+echo shift prepend shift U A S K , echo prepend G J Q Q , copy reverse echo B V F	F V B G J Q Q Q A S K U F F
+prepend shift shift R Q L E X , shift copy F W T Q N	W T Q N F L E X R Q
+shift copy copy prepend shift reverse D K K U S , shift R H T U M	T U M R U K K D S H
+prepend echo R I E , prepend shift shift copy copy G N Y A W , shift O H N Q A	H N Q A O Y A W G N R I E E
+prepend reverse reverse shift shift Q W V S Z , prepend shift append C B C F , shift copy T R O E , shift copy prepend append W K T E M , copy H E C K , Y O B E	O B E W K T E M H E C K Y B C F R O E T C V S Z Q W
+prepend echo shift copy shift H P J E , prepend shift J U E H K , shift echo append append O T H J , O W H M Q , J Y P Z E	T H J O W H M Q J Y P Z E E O U E H K J J E H P P
+prepend shift append append copy copy copy copy reverse shift J K N , reverse shift reverse echo P S T W , copy copy shift prepend copy reverse shift shift shift X B S T , Z N O O , P R D G A	P R D G A N K W P S T W N O O S B X T Z J
+echo prepend shift C D X Y , copy J F W M	J F W M D X Y C C
+prepend shift copy S A V , N Z M R A	N Z M R A A V S
+echo prepend shift P D U U , echo A P A U L	A P A U L L D U U P P
+prepend shift echo reverse append reverse Y Z T , V F Z M , reverse I L Y K	K Y L I Z F V Y Z T T M
+prepend shift echo K C H H K , echo shift shift shift W H Q T	T W H Q Q C H H K K K
+prepend copy echo D K U N S , append prepend shift V J W Q , N X C L , E T P M	N X C L J W Q V E T P M D K U N S S
+prepend shift shift V F K N B , reverse reverse C I D D W	C I D D W K N B V F
+prepend shift T X U S , shift O A F	A F O X U S T
+prepend shift shift echo copy echo shift U H F , shift prepend shift shift Z G T A O , echo D H Q D	H Q D D T A O Z G D U U U H F
+append L R K X E , copy prepend shift copy W J L N H , prepend echo J A N L , A P F G	L R K X E A P F G J A N L L J L N H W
+shift append prepend reverse echo H T G , R Y C C O , prepend shift shift echo shift shift J N D O , shift shift prepend O E X , shift echo U I X V	Y C C O G G T H V V U O E X I X J N N D O R
+prepend prepend shift copy N X E Q V , echo copy V G W O , shift copy reverse K C C A W	A C C K W V G W O O X E Q V N
+prepend shift shift reverse reverse append N Z K F , A B X U B , prepend echo reverse reverse reverse V B N F , reverse echo prepend reverse echo R U O L J , reverse I I N O X	R R U O L J J I I N O X F N B V V K F A B X U B N Z
+reverse append R R L K , append prepend shift copy copy E D E L , copy O Z F Y I , copy G F X J O	O J X F G E L E D I Y F Z O K L R R
+echo prepend shift prepend copy reverse J R O M , shift reverse X O L A Y , copy T P U	T P U L O X Y M O R J A A
+prepend shift echo J F Q Z F , echo shift S Y C Y A	Y C Y A S S F Q Z F F J
+append copy reverse prepend shift reverse reverse echo copy R P Z , reverse echo N K D C X , prepend echo Y G R A , echo echo reverse echo reverse N F U N	R Z Z P N K D C X X N N F U N N N Y G R A A
+prepend echo shift reverse echo echo reverse Q C R , shift prepend shift copy R M N V O , shift K V X C	X C K M N V O R V Q Q C R Q Q
+prepend prepend shift echo M P O M T , copy shift A F Q P , shift reverse copy L D Y R A	R Y D L A F Q P A P O M T T M
+echo prepend shift U O K U , echo D H Z	D H Z Z O K U U U
+copy echo prepend shift J H B W H , shift Q E F C Z	E F C Z Q H B W H J J
+reverse reverse prepend append T M M M E , echo reverse prepend shift shift M F A Z Z , echo shift shift H I M E N , reverse copy copy reverse O H N N X	O H N N X T M M M E F M Z Z A I I H N E M M
+echo prepend prepend shift W L S T , Q Z P K , copy H K V C T	H K V C T Q Z P K L S T W W
+prepend shift shift copy C Y R A W , reverse echo copy J O R F R	R R F R O J R A W C Y
+prepend copy echo N Q I , shift prepend shift shift copy U P Q , shift F Q V F	V F F Q U P Q N Q I I
+prepend shift reverse shift copy W H E P M , reverse copy copy Q A F Y	Y F A Q M P E H W
+echo append reverse prepend shift R O A G , L Y C K , reverse reverse shift J G S N A	R G A O K C Y L G S N A J J
+prepend shift prepend R V T , H U E , copy J J H R X	J J H R X U E R V T H
+echo prepend shift echo D B M L S , prepend R H W D , prepend J I M K A , N Y J J W	N Y J J W J I M K A R H W D B M L S S D D
+shift prepend copy shift shift reverse J R O K O , shift prepend shift S L C H B , echo copy R H K T R	K T R R L C H B S R O R J O K H
+prepend shift copy echo R C B , copy copy reverse B P S U	U S P B C B B R
+prepend shift R M H K , append echo U E B O , shift E M E	U E B O O M E E M H K R
+prepend copy shift C W W J T , copy prepend shift echo shift Y M N X V , P Q N L	P Q N L N X V Y Y M W W J T C
+append echo append F W U V , copy E E H D , shift prepend prepend shift echo E Y O F I , I G K H , append T N K O J , A X E U	F W U V E E H D D N K O J A X E U I G K H Y O F I I E T
+prepend reverse copy copy shift reverse copy C T Z X Y , prepend reverse copy echo prepend shift prepend echo X I Y E , U V A T U , reverse shift echo Z N X J I , echo echo echo echo shift shift H Y B	B H Y Y Y Y Y U U E E Y I X U T A V N X J I I Z Y C T Z X
+prepend shift append append N C Z M , K M W T O , echo H Y F Z T , echo copy reverse U P Q H	H Q P U U C Z M K M W T O H Y F Z T T N
+prepend shift echo D F F N , R H X	R H X F F N N D
+prepend shift prepend echo echo E P G Q , copy reverse append P I P I W , Z M K Q , copy shift shift V F G R Z	G R Z V F K M Z W I P I P E P G Q Q Q Q
+prepend shift append D X O E Y , copy Y W O H A , prepend shift reverse O Z O Q N , shift reverse Y N L O L	O L N Y L Q O Z O N X O E Y Y W O H A D
+shift prepend copy prepend shift N I N O B , T U B I , append reverse echo N K Z R , reverse copy append prepend R B O U , shift reverse prepend reverse shift echo Q R U H , X G U D S , copy shift shift O J Y D	R Z K N J O D Y U O B R R X G U D S Q H H U T U B I I N O B N R
+shift shift prepend prepend Q A A S R , echo copy J H N W , prepend shift I T B M , shift A H T K	K A T B M I J H N W W Q A A S R H T
+prepend shift prepend F A E O R , copy Q K J P G , echo prepend copy Y I C G V , reverse C C U M N	N M U C C Y I C G V V K J P G F A E O R Q
+shift reverse prepend shift echo copy N T B R , echo copy W X V M H	R R B T H H M V X W N
+reverse append append prepend shift S A O F I , shift X I E D F , echo J R A Q M , reverse W H B	W H B M M Q A R J S I F O A X F D E I
+prepend shift reverse shift echo U G I N , prepend reverse copy N U Y E B , copy reverse reverse shift W Y L G	Y L G W B E Y U N N N I G U
+prepend echo prepend shift D R G F , N F W Q Y , Z O N Q V	Z O N Q V N F W Q Y R G F D D
+prepend shift echo J G M F B , copy copy D R M I T	D R M I T G M F B B J
+reverse prepend shift reverse W L Q Y , copy shift O U S Q H	Y W L Q O H Q S U
+prepend shift prepend shift shift shift W W X T Y , copy copy echo W A W V B , shift reverse reverse echo F G X V	G X V V F A W V B B T Y W W X W
+append prepend shift reverse reverse Q G W D , reverse I J U Q , shift shift echo reverse N G R U E	Q U J I G W D Q R G N N E U
+prepend shift prepend F O X U , reverse H V G J , copy prepend prepend reverse echo R T C G T , F X O B , prepend Z Q A O Z , F D A R	F D A R Z Q A O Z F X O B T T G C T R G V H F O X U J
+prepend shift shift R Y K T , reverse D X R Z	Z R X D K T R Y
+copy copy reverse prepend shift L E H C , reverse A S E O G	L C H E A S E O G
+append prepend shift copy append copy Q C G D , shift append shift echo shift O Q W T W , prepend shift E Y F H O , reverse A C F Z L , reverse S Y K U K , append echo echo shift echo P M C Z V , reverse T T R U M	K U K Y S C G D T W O O Q L Z F C A Y F H O E W Q M C Z V V P P P M U R T T
+prepend shift reverse R E X , V Q A	V Q A E R X
+prepend shift I U H X O , prepend copy reverse reverse L B X N X , reverse copy reverse M K W M J	M K W M J L B X N X U H X O I
+prepend shift shift copy reverse shift echo copy echo O I K , append P K Q , copy echo append Q A M J T , Z R X Y	P K Q Q A M J T Z R X Y Y K K I O K
+append shift reverse V J X X N , prepend shift shift append reverse G J O S G , V W P I , H H R Z	X X J V N H H R Z O J G V W P I G S
+prepend shift reverse R M G , A N Q	A N Q M R G
+prepend shift append T M Q F , F T G P , M H A X	M H A X M Q F F T G P T
+reverse echo append prepend shift echo shift reverse T W I , prepend shift D X N , T B X K R , append append echo reverse R V V D O , echo prepend reverse M B U C , reverse shift E L Y N F , L X A S Z	Z Z S A X L M M B U C L Y N F E R R V V D O W I I T D N X R K X B T
+prepend reverse prepend shift B M O J S , shift C S Y T , echo echo copy echo L R B H Z	L R B H Z Z Z Z B S J O M C T Y S
+shift append echo copy prepend P E R Z , reverse reverse M P C , prepend shift G M P V B , reverse reverse P A C	P C P E R Z Z P A C M P V B G M
+reverse reverse copy shift echo prepend shift N Y U Y , reverse Z Y J	Y Z Y U Y N N J
+append shift prepend O Z G Q , E W S R , prepend shift U X Y W , shift Y F E T N	W S R O Z G Q E F E T N Y X Y W U
+prepend shift reverse copy reverse C M T L , append shift S U I M D , echo reverse append append S N I E , W Q C P A , V F T E G	U I M D S G E T F V A P C Q W E I N S S M T L C
+prepend reverse prepend shift reverse X M F N , echo shift D P U , Y I U B A	Y I U B A N X M F D D U P
+prepend shift reverse V T W , echo append K O K G , O X J K Y	K O K G O X J K Y Y T V W
+shift shift prepend shift W G X J T , reverse copy X G M Y	G X G X J T W Y M
+prepend shift reverse F W Z L G , echo append copy Y H C L N , reverse S K A W F	Y H C L N F W A K S S L Z W F G
+prepend shift echo echo B F H U U , prepend append U E D H U , reverse W L V W Y , copy shift L J Q N I	J Q N I L U E D H U Y W V L W F H U U U U B
+copy prepend shift copy reverse M A V W , copy I F Y	I F Y V A M W
+prepend shift shift R A Y , O H Y V	O H Y V Y R A
+append shift prepend shift C T C D M , prepend O J I X , P Z U X , echo shift copy echo A F C I S	Z U X O J I X T C D M C P F C I S S A A
+shift prepend shift K M T , E A B T	A B T M T K E
+reverse prepend shift echo T U S H Q , prepend shift shift shift reverse O O V V D , T X O A H	T Q Q H S U V V D O O H A O X T
+shift echo copy shift prepend shift prepend copy shift Q K B , R V O M N , shift echo shift U Q Y L R	R U U Q V O M N K B Q R Y Y L
+append shift shift reverse copy echo K G F I D , append copy prepend shift reverse G X M B , Z V W K O , copy reverse Y B G C O	I F G K D D Z V W K O M X G B O C G B Y
+append copy shift R K Y R , reverse prepend E H S F T , reverse prepend shift B R Z Z , Y S J P M	K Y R R T F S H E Y S J P M R Z Z B
+prepend shift shift echo echo prepend reverse Y R W V S , copy M B X C Y , echo reverse shift echo reverse X G I S M	M X X G I S S X C Y S V W R Y Y Y M B
+prepend echo reverse copy copy R H B A U , reverse prepend shift A R X D , copy N V S J	A D X R J S V N U A B H R R
+prepend prepend shift reverse Z T G C , P I F H L , prepend copy append echo echo reverse reverse copy J R P K , E M P X W , shift E J W O	J W O E J R P K K K E M P X W P I F H L G T Z C
+echo append prepend shift reverse copy Z V E H I , shift prepend W J N I , reverse F L S M A , echo echo N V H M I	M S L F W J N I A H E V Z I N V H M I I I I
+shift prepend shift echo copy copy C Z E I , reverse shift echo prepend echo reverse M E G N X , E Y W	M M M E G N X W Y Z E I I C E
+reverse prepend shift echo prepend copy copy echo reverse O F X T , copy copy copy U D I , echo R G Y	U O O O F X T I D Y Y G R
+prepend shift Z C O , prepend U R R V G , copy copy N F G	N F G U R R V G C O Z
+append prepend shift reverse copy reverse shift R J Q F , reverse R Y R L , L G H Q	L R Y R Q F R J L G H Q
+copy append O H B , prepend shift G F B Z J , echo copy P S L	O H B P S L L F B Z J G
+prepend shift echo reverse U W B L E , append shift G N P J , shift shift reverse echo copy echo K Q Y S H	N P J G H S Y Q K H H L B W U U E
+prepend shift shift append echo E M T Y , reverse shift echo A F M T Z , append reverse echo Y F O V , shift reverse reverse prepend copy I O R R , K E X B K	V V O F Y E X B K I O R R K T Y Y A Z Z T M F E M
+append append shift reverse echo copy shift M V U P , copy echo reverse copy copy W D K , prepend shift reverse M G Q K L , copy N R G D H	M P U V M K D W W N R G D H K Q G M L
+shift append shift shift reverse X G H M N , prepend shift append copy echo append reverse P C X , echo U E H X K , J S B V , shift reverse copy Z Y B R Y	G X N M R B Y Z Y C P U E H X K K K J S B V X H
+shift prepend X P E T V , prepend shift append echo echo shift reverse Y B X N V , reverse shift reverse copy Y R L H F , Y H J L	H J L X B Y V V V F Y R L H N X P E T V Y
+prepend shift prepend reverse reverse P S D I , W G E , reverse Q J Q O I	I O Q J Q G E P S D I W
+shift prepend copy F Z N A , reverse shift copy prepend shift shift reverse E Y C Q G , echo R S H F	Q G E Y C F F H S F Z N A R
+prepend shift T A O Z K , copy reverse W C H	H C W A O Z K T
+copy prepend K Z Q , shift prepend shift Y V A , T F D	F D V A Y T K Z Q
+prepend reverse K Z N U , reverse prepend shift reverse I U N F Y , reverse echo reverse U X Z I I	Y I U N F I I Z X U U U N Z K
+append copy prepend shift echo echo X B W , copy reverse copy copy I M D , shift copy I P W F	D M I B W W W X P W F I
+shift prepend shift shift copy echo H R J , shift echo echo reverse S T I J	T S S S J J J H R I
+append prepend shift Q A L H , shift A D D G D , G H T O H	D D G D A A L H Q G H T O H
+shift prepend shift H S D T , Y A B	A B S D T H Y
+prepend reverse echo echo shift H N W R E , prepend prepend shift echo R B R B , copy Y D K J B , copy echo N U I J	N U I J J Y D K J B B R B B R H H H E R W N
+append prepend D C G E , copy prepend shift N P V B A , reverse V F Y U M , A L Q M H	M U Y F V P V B A N D C G E A L Q M H
+prepend shift shift shift C R H E O , reverse echo F U A S A	A A S A U F E O C R H
+prepend U D N S R , copy echo prepend shift C F O W T , C H C K	C H C K F O W T C C U D N S R
+prepend shift shift W B J B , prepend reverse reverse K G H P Z , M J Y X X	M J Y X X K G H P Z J B W B
+prepend M E J M , echo append shift echo prepend echo G T O , reverse U G M Y , copy reverse prepend shift reverse reverse shift Z N J B K , C R V S	M G U G T O O O Y N Z K B J S V R C C M E J M
+prepend shift echo echo B P N S N , echo prepend reverse C D B E R , shift J Y P H	Y P H J R E B D C C P N S N N N B
+reverse echo prepend shift copy Z H , reverse shift L I I S	Z Z H I I S L
+reverse prepend shift reverse I O P X , append E Q X S G , copy shift reverse H N Y R H	X I O P H H N Y R G S X Q E
+prepend shift copy echo E Y Q F , copy shift append shift T U S , echo Q O T	S T Q O T T U Y Q F F E
+append prepend shift echo K T R I , copy shift T J F R , copy U J R I	J F R T T R I I K U J R I
+prepend shift M G N S U , echo echo reverse echo L G V U	U U V G L L L G N S U M
+shift copy prepend shift R G F X , echo N Z P L	Z P L L G F X R N
+echo prepend shift K Q X K M , D Z V	D Z V Q X K M K K
+shift echo shift prepend shift R Z T B T , shift prepend copy D X K S , V T R B	B D X K S V Z T B T R T T R
+shift echo echo prepend shift reverse reverse V F M G , copy copy E H A N B	H A N B F M G V V V E
