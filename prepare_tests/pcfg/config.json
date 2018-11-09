@@ -1,0 +1,22 @@
+{
+    "general":
+    {
+        "train" : "../../data/pcfg/pcfg_train.txt",
+        "test" : "../../data/pcfg/pcfg_test.txt",
+        "evaluate_command" : "python3 ../Machine2/evaluate.py --checkpoint_path ../Machine2/pcfg_model --test_data {}",
+        "output_dir" : "../../data/pcfg/experiments",
+        "handler": "PCFGHandler"
+    },
+    "exceptions":
+    {
+        "template": ".*{} {}.*",
+        "candidates": ["copy", "reverse", "shift", "echo", "append", "prepend"],
+        "replacements": {"copy": "reverse", "reverse":"shift", "shift":"echo", "echo":"copy", "append":"prepend", "prepend":"append"},
+        "percentage": 0.01,
+        "position": 0
+    },
+    "localism":
+    {
+        "percentage": 1.0
+    }
+}
