@@ -1,10 +1,10 @@
 {
     "general":
     {
-        "train" : "../../data/pcfg/pcfg_train.txt",
-        "test" : "../../data/pcfg/pcfg_test.txt",
+        "train" : "../../data/pcfg/targets_joined/pcfg_train.txt",
+        "test" : "../../data/pcfg/targets_joined/pcfg_test.txt",
         "evaluate_command" : "python3 ../Machine2/evaluate.py --checkpoint_path ../Machine2/pcfg_model --test_data {}",
-        "output_dir" : "../../data/pcfg/experiments",
+        "output_dir" : "../../data/pcfg/targets_joined/experiments",
         "handler": "PCFGHandler"
     },
     "exceptions":

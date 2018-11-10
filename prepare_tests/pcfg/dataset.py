@@ -40,16 +40,17 @@ class Dataset:
         self.samples.append(sample)
         self._update_statistics(sample)
 
-    def remove(self, sample):
-        if sample in self.samples:
-            self.samples.remove(sample)
-        else:
-            for sample2 in self.samples:
-                if sample2.source == sample.source:
-                    self.samples.remove(sample2)
-                    break
-        for token in set(sample.source.split()):
-            self.statistics[token] -= 1
+    def remove(self, samples):
+        for sample in samples:
+            if sample in self.samples:
+                self.samples.remove(sample)
+            else:
+                for sample2 in self.samples:
+                    if sample2.source == sample.source:
+                        self.samples.remove(sample2)
+                        break
+            for token in set(sample.source.split()):
+                self.statistics[token] -= 1
 
     def extend(self, samples):
         self.samples.extend(samples)

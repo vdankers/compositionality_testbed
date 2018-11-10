@@ -9,33 +9,46 @@ import random
 from typing import List, Tuple
 
 import handlers
+from handlers import DatasetHandler
 from dataset import Dataset, Sample
 
 
-def exceptions(handler : handlers.DatasetHandler, dataset : Dataset, name : str):
+def exceptions(handler : DatasetHandler, dataset : Dataset, name : str):
     """For all templates, collect exceptions and save training and testing
     datasets."""
 
-    def collect_exceptions(dataset, template : str) -> Tuple[List[Sample], List[Sample]]:
+    def collect_exceptions(dataset, template : str, token1 : str, token2 : str) -> Tuple[List[Sample], List[Sample]]:
         """Collect all samples whose source sequence matches the 'template'."""
         exceptions = Dataset()
         regex = re.compile(template)
 
+        new_samples = []
         for sample in dataset:
             match = regex.match(sample.source)
-            if not match is None: exceptions.add(sample)
+            if not match is None:
+                if sample.source.count(token1) == 1 and sample.source.count(token2) == 1:
+                    exceptions.add(sample)
+                # else:
+                #     print(template, sample.source)
+            else:
+                new_samples.append(sample)
 
-        dataset_exceptions_removed = copy.deepcopy(dataset)
-        for sample in exceptions: dataset_exceptions_removed.remove(sample)
+        dataset_exceptions_removed = Dataset(samples=new_samples)
         return exceptions, dataset_exceptions_removed
 
-    def acquire_alternative_targets(exceptions : List[Sample]) -> List[Sample]:
+    def acquire_alternative_targets(exceptions : List[Sample], handler : DatasetHandler, token1 : str, token2 : str) -> List[Sample]:
         """Collect the adapted targets for the exceptions gathered in the source."""
         exceptions_alternative_targets = Dataset()
+        samples_to_remove = []
         for sample in exceptions:
-            new_target = self.get_target(sample)
-            new_sample = Sample(sample.source, new_target)
-            exceptions_alternative_targets.add(new_sample)
+            new_target, _, _ = handler.get_target(sample, token1, token2)
+            new_target = " ".join(new_target)
+            if new_target != sample.target:
+                new_sample = Sample(sample.source, new_target)
+                exceptions_alternative_targets.add(new_sample)
+            else:
+                samples_to_remove.append(sample)
+        exceptions.remove(samples_to_remove)
         return exceptions_alternative_targets
 
     n_samples = len(dataset)
@@ -43,22 +56,32 @@ def exceptions(handler : handlers.DatasetHandler, dataset : Dataset, name : str)
 
     for token1 in handler.candidates:
         for token2 in handler.candidates:
+            if token1 == token2: continue
             tmp_template = handler.template.format(token1, token2)
-            exceptions, dataset_no_exceptions = collect_exceptions(dataset, tmp_template)
+            exceptions, dataset_no_exceptions = collect_exceptions(dataset, tmp_template, token1, token2)
             n_exceptions = round(handler.percentage * min(dataset.statistics[token1], dataset.statistics[token2]))
+
             exceptions.keep_top(n_exceptions)
 
             logging.info("Template {}, found {} exceptions.".format(
                          tmp_template, len(exceptions)))
+            
+            exceptions_alternative_targets = acquire_alternative_targets(exceptions, handler, token1, token2)
+            # Save training set with exceptions
+            dataset_no_exceptions.extend(exceptions_alternative_targets.samples)
+            directory = os.path.join(handler.output_dir, "exceptions/train/")
+            fname = "train_{}-{}.tsv".format(token1, token2)
+            dataset_no_exceptions.save(fname, directory) 
 
+            # Save exceptions adapted target
+            fname = "test_adap_{}-{}.tsv".format(token1, token2)
+            directory = os.path.join(handler.output_dir, "exceptions/adapted/")
+            Dataset(samples=[s for s in exceptions_alternative_targets.samples if handler.count_functions(s.source) == 2]).save(fname, directory)
+
+            # Save exceptions original target
             fname = "test_org_{}-{}.tsv".format(token1, token2)
-            directory = os.path.join(handler.output_dir, "exceptions")
-            exceptions.save(filename=fname, folder=directory)
-            # exceptions_alternative_targets = acquire_alternative_targets(exceptions)
-            # fname = "test_adap_exception-{}_composition-{}_replacement-{}.tsv".format(
-            #             exception, composition, replacement
-            #         )
-            # exceptions_alternative_targets.save(fname, handler.output_dir)
+            directory = os.path.join(handler.output_dir, "exceptions/original/")
+            Dataset(samples=[s for s in exceptions.samples if handler.count_functions(s.source) == 2]).save(filename=fname, folder=directory)
 
 
 if __name__ == '__main__':

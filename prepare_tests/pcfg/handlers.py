@@ -65,23 +65,25 @@ class PCFGHandler(DatasetHandler):
         super().__init__(config, mode)
         self.functions = ["echo", "shift", "reverse", "copy", "append", "prepend"]
 
-    def get_test_accuracy(self, experiment_type : str, fname : str) -> float:
-        command = self.evaluate_command.format(os.path.join(self.output_dir, experiment_type, fname))
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-        process.wait()
-        print(process.returncode)
-        exit()
-        return accuracy
-
     def unroll(self, sample : Sample):
         source = self._place_brackets(sample.source)
         _, unrolled_samples, _ = self._unroll_recursively(source, [], 0)
         return unrolled_samples
 
-    def get_target(self, sample : Sample) -> str:
+    def get_target(self, sample : Sample, token1 : str, token2 : str) -> str:
         sequence = self._place_brackets(sample.source)
-        sequence = self._get_target_recursively(sequence)
+        sequence = self._get_target_recursively(sequence, token1, token2)
         return sequence
+
+    def is_primitive(self, sequence : str) -> bool:
+        function_calls = self.count_functions(sequence)
+        return True if function_calls == 1 else False
+
+    def count_functions(self, sequence : str) -> int:
+        function_calls = 0
+        for token in sequence.split():
+            if token in self.functions: function_calls += 1
+        return function_calls
 
     def _unroll_recursively(self, sequence : str, output : Tuple[str, List[Tuple[str, str]], int], variable_counter : int) -> (str, Tuple[str, List[Tuple[str, str]], int], int):
         if sequence.count("(") > 1:
@@ -110,33 +112,27 @@ class PCFGHandler(DatasetHandler):
         else:
             return sequence, output, variable_counter
 
-    def _get_target_recursively(self, sequence : str) -> str:
+    def _get_target_recursively(self, sequence : str, token1 : str, token2 : str) -> str:
         if "(" in sequence:
             [function, rest] = sequence.split('(', 1)
             function = function.lstrip().rstrip()
             rest = rest.rsplit(')', 1)[0].lstrip().rstrip()
             if function == "append" or function == "prepend":
-                arg1, arg2 = self.get_args(rest)
-                arg1, arg2 = self._get_target_recursively(arg1), self._get_target_recursively(arg2)
-                if function == self.real:
-                    print(self.real, self.confusion)
-                    return getattr(self, self.confusion)(arg1, arg2)
+                arg1, arg2 = self._get_args(rest)
+                arg1, _, _ = self._get_target_recursively(arg1, token1, token2)
+                arg2, _, _ = self._get_target_recursively(arg2, token1, token2)
+                if function == token1 or function == token2:
+                    return getattr(self, "_" + self.replacements[function])(arg1, arg2), token1, token2
                 else:
-                    return getattr(self, function)(arg1, arg2)                    
+                    return getattr(self, "_" + function)(arg1, arg2), token1, token2
             else:
-                rest = self._get_target_recursively(rest)
-                if function == self.real:
-                    return getattr(self, self.confusion)(rest)
+                rest, _, _ = self._get_target_recursively(rest, token1, token2)
+                if function == token1 or function == token2:
+                    return getattr(self, "_" + self.replacements[function])(rest), token1, token2
                 else:
-                    return getattr(self, function)(rest)
+                    return getattr(self, "_" + function)(rest), token1, token2
         else:
-            return sequence.split()
-
-    def is_primitive(self, sequence : str) -> bool:
-        function_calls = 0
-        for token in sequence.split():
-            if token in self.functions: function_calls += 1
-        return True if function_calls == 1 else False
+            return sequence.split(), token1, token2
 
     def _get_args(self, sequence : str) -> bool:
         brackets = 0
