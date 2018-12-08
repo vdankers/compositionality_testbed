@@ -34,15 +34,23 @@ class DatasetHandler:
         self.output_dir = config["general"]["output_dir"]
         self.train = Dataset(filename=config["general"]["train"])
         self.test = Dataset(filename=config["general"]["test"])
-        self.evaluate_command = config["general"]["evaluate_command"]
         if mode == "exceptions":
             self.template = config["exceptions"]["template"]
             self.position = config["exceptions"]["position"]
             self.percentage = config["exceptions"]["percentage"]
             self.replacements = config["exceptions"]["replacements"]
             self.candidates = config["exceptions"]["candidates"]
+            self.candidates1 = config["exceptions"]["candidates1"]
+            self.candidates2 = config["exceptions"]["candidates2"]
         elif mode == "localism":
             self.percentage = config["localism"]["percentage"]
+        elif mode == "substitutivity":
+            self.percentage = config["substitutivity"]["percentage"]
+            self.candidates = config["substitutivity"]["candidates"]
+        elif mode == "systematicity":
+            self.candidates = config["systematicity"]["candidates"]
+            self.percentage = config["systematicity"]["inputs_percentage"]
+            #self.inputs = config["systematicity"]["inputs"]
 
     def unroll(self, sample : Sample, output : Tuple[str, List[Tuple[str, str]], int], variable_counter : int) -> Tuple[str, List[Tuple[str, str]], int]:
         raise NotImplementedError("To be implemented")
@@ -63,15 +71,23 @@ class PCFGHandler(DatasetHandler):
     """
     def __init__(self, config : Dict[str, Dict], mode : str):
         super().__init__(config, mode)
-        self.functions = ["echo", "shift", "reverse", "copy", "append", "prepend"]
+        self.binary = ["append", "prepend", "remove_first", "remove_second"]
+        self.unary = ["echo", "swap_first_last", "repeat", "shift", "reverse", "copy"]
+        self.functions = self.binary + self.unary
+        self.letters = []
+        for s in self.train:
+            for t in s.source.split():
+                if t.lower() != t:
+                    self.letters.append(t)
+        self.letters = list(set(self.letters))
 
     def unroll(self, sample : Sample):
         source = self._place_brackets(sample.source)
         _, unrolled_samples, _ = self._unroll_recursively(source, [], 0)
         return unrolled_samples
 
-    def get_target(self, sample : Sample, token1 : str, token2 : str) -> str:
-        sequence = self._place_brackets(sample.source)
+    def get_target(self, source : str, token1 : str, token2 : str) -> str:
+        sequence = self._place_brackets(source)
         sequence = self._get_target_recursively(sequence, token1, token2)
         return sequence
 
@@ -85,25 +101,60 @@ class PCFGHandler(DatasetHandler):
             if token in self.functions: function_calls += 1
         return function_calls
 
-    def _unroll_recursively(self, sequence : str, output : Tuple[str, List[Tuple[str, str]], int], variable_counter : int) -> (str, Tuple[str, List[Tuple[str, str]], int], int):
+    def replace_letters(self, sequence : str, replacements : List[str]) -> str:
+        letters_to_use = list(set(self.letters) - set(replacements))
+        sequence = sequence.split()
+        for i, token in enumerate(sequence):
+            if token in replacements:
+                sequence[i] = letters_to_use[random.randint(0, len(letters_to_use)-1)]
+        return " ".join(sequence)
+
+    def keep_letters(self, sequence : str, keep : List[str]) -> str:
+        sequence = sequence.split()
+        for i, token in enumerate(sequence):
+            if token not in keep and token not in self.functions and token != ",":
+                sequence[i] = random.sample(keep, 1)[0]
+        return " ".join(sequence)
+
+    def construct_primitives(self, token : str, n : int, include_letter : str="") -> List[Sample]:
+        primitives = []
+        for i in range(n):
+            source = [token]
+            if token in self.binary:
+                str1 = self._get_string(2, 5, include_letter)
+                str2 = self._get_string(2, 5, include_letter)
+                source = "{} {} , {}".format(token, str1, str2)
+            else:
+                str1 = self._get_string(2, 5, include_letter)
+                source = "{} {}".format(token, str1)
+            target, _, _ = self.get_target(source, None, None)
+            target = " ".join(target)
+            sample = Sample(source, target)
+            primitives.append(sample)
+        return primitives
+
+    def _unroll_recursively(self, sequence : str,
+                            output : Tuple[str, List[Tuple[str, str]], int],
+                            variable_counter : int) -> \
+                            (str, Tuple[str, List[Tuple[str, str]], int], int):
         if sequence.count("(") > 1:
             [function, rest] = sequence.split('(', 1)
             function = function.lstrip().rstrip()
             rest = rest.rsplit(')', 1)[0].lstrip().rstrip()
-            if function == "append" or function == "prepend":
+            if function in self.binary:
                 arg1, arg2 = self._get_args(rest)
                 target1, output, variable_counter = self._unroll_recursively(arg1, output, variable_counter)
                 target2, output, variable_counter = self._unroll_recursively(arg2, output, variable_counter)
-                target3 = "_{}".format(variable_counter + 1)
+                target3 = "*{}".format(variable_counter + 1)
                 output.append(("{} {} , {}".format(function, target1, target2), target3))
                 return target3, output, variable_counter + 1                  
             else:
                 target1, output, variable_counter = self._unroll_recursively(rest, output, variable_counter)
-                target2 = "_{}".format(variable_counter + 1)
+                target2 = "*{}".format(variable_counter + 1)
                 output.append(("{} {}".format(function, target1), target2))
                 return target2, output, variable_counter + 1
         elif  sequence.count("(") == 1:
-            target = "_{}".format(variable_counter + 1)
+            target = "*{}".format(variable_counter + 1)
             sequence = sequence.replace("(", "")
             sequence = sequence.replace(")", "")
             sequence = re.sub("\ +", " ", sequence)
@@ -112,17 +163,20 @@ class PCFGHandler(DatasetHandler):
         else:
             return sequence, output, variable_counter
 
-    def _get_target_recursively(self, sequence : str, token1 : str, token2 : str) -> str:
+    def _get_target_recursively(self, sequence : str, token1 : str,
+                                token2 : str) -> str:
         if "(" in sequence:
             [function, rest] = sequence.split('(', 1)
             function = function.lstrip().rstrip()
             rest = rest.rsplit(')', 1)[0].lstrip().rstrip()
-            if function == "append" or function == "prepend":
+            if function in self.binary:
                 arg1, arg2 = self._get_args(rest)
                 arg1, _, _ = self._get_target_recursively(arg1, token1, token2)
                 arg2, _, _ = self._get_target_recursively(arg2, token1, token2)
                 if function == token1 or function == token2:
-                    return getattr(self, "_" + self.replacements[function])(arg1, arg2), token1, token2
+                    return getattr(self, "_" + self.replacements[function])(
+                            arg1, arg2
+                        ), token1, token2
                 else:
                     return getattr(self, "_" + function)(arg1, arg2), token1, token2
             else:
@@ -142,24 +196,6 @@ class PCFGHandler(DatasetHandler):
             elif character == '(': brackets += 1
             elif character == ')': brackets -= 1
 
-    def _copy(self, string : str) -> str:
-        return string
-
-    def _reverse(self, string : str) -> str:
-        return string[::-1]
-
-    def _shift(self, string : str) -> str:
-        return string[1:] + [string[0]]
-
-    def _echo(self, string : str) -> str:
-        return string + [string[-1]]
-
-    def _append(self, string1 : str, string2 : str) -> str:
-        return string1 + string2
-
-    def _prepend(self, string1 : str, string2 : str) -> str:
-        return string2 + string1
-
     def _place_brackets(self, seq):
         seq = seq.split()
         seq.append("END")
@@ -167,11 +203,11 @@ class PCFGHandler(DatasetHandler):
         new_seq = []
 
         for token in seq:
-            if token == "append" or token == "prepend":
+            if token in self.binary:
                 new_seq.append(token)
                 new_seq.append("(")
                 queue.append(["two", 0])
-            elif token in ["copy", "reverse", "shift", "echo"]:
+            elif token in self.unary:
                 new_seq.append(token)
                 new_seq.append("(")
                 queue.append(["one", 0])
@@ -192,3 +228,46 @@ class PCFGHandler(DatasetHandler):
 
         assert new_seq.count("(") == new_seq.count(")")
         return " ".join(new_seq)
+
+    def _get_string(self, min_length, max_length, include_letter=""):
+        source = []
+        for j in range(random.randint(min_length, max_length)):
+            letter_index = random.randint(0, len(self.letters)-1)
+            letter = self.letters[letter_index]
+            source.append(letter)
+        if include_letter is not "":
+            source[random.randint(0, len(source)-1)] = include_letter
+        source = " ".join(source)
+        return source
+
+    # Unary functions
+    def _copy(self, sequence):
+        return (sequence)
+
+    def _reverse(self, sequence):
+        return (sequence[::-1])
+
+    def _shift(self, sequence):
+        return (sequence[1:] + [sequence[0]])
+
+    def _echo(self, sequence):
+        return (sequence + [sequence[-1]])
+
+    def _swap_first_last(self, sequence):
+        return([sequence[-1]] + sequence[1:-1] + [sequence[0]])
+
+    def _repeat(self, sequence):
+        return(sequence + sequence)
+
+    # Binary functions
+    def _append(self, sequence1, sequence2):
+        return (sequence1 + sequence2)
+
+    def _prepend(self, sequence1, sequence2):
+        return (sequence2 + sequence1)
+
+    def _remove_first(self, sequence1, sequence2):
+        return (sequence2)
+
+    def _remove_second(self, sequence1, sequence2):
+        return(sequence1)

@@ -13,7 +13,7 @@ from handlers import DatasetHandler
 from dataset import Dataset, Sample
 
 
-def exceptions(handler : DatasetHandler, dataset : Dataset, name : str):
+def exceptions(handler : DatasetHandler, dataset : Dataset, test : Dataset):
     """For all templates, collect exceptions and save training and testing
     datasets."""
 
@@ -41,7 +41,7 @@ def exceptions(handler : DatasetHandler, dataset : Dataset, name : str):
         exceptions_alternative_targets = Dataset()
         samples_to_remove = []
         for sample in exceptions:
-            new_target, _, _ = handler.get_target(sample, token1, token2)
+            new_target, _, _ = handler.get_target(sample.source, token1, token2)
             new_target = " ".join(new_target)
             if new_target != sample.target:
                 new_sample = Sample(sample.source, new_target)
@@ -52,36 +52,43 @@ def exceptions(handler : DatasetHandler, dataset : Dataset, name : str):
         return exceptions_alternative_targets
 
     n_samples = len(dataset)
+    n_exceptions = int(len(dataset) * handler.percentage)
+    dataset.extend(test.samples)
     logging.info("Dataset contains {} samples.".format(n_samples))
+    exceptions_test = Dataset()
+    exceptions_test_adapted = Dataset()
 
-    for token1 in handler.candidates:
-        for token2 in handler.candidates:
-            if token1 == token2: continue
-            tmp_template = handler.template.format(token1, token2)
-            exceptions, dataset_no_exceptions = collect_exceptions(dataset, tmp_template, token1, token2)
-            n_exceptions = round(handler.percentage * min(dataset.statistics[token1], dataset.statistics[token2]))
+    for token1, token2 in zip(handler.candidates1, handler.candidates2):
+        n_exceptions = round(handler.percentage * min(dataset.statistics[token1], dataset.statistics[token2]))
+        logging.info("Creating {} exceptions for {} - {}.".format(n_exceptions, token1, token2))
+        if token1 == token2: continue
+        tmp_template = handler.template.format(token1, token2)
+        exceptions, dataset = collect_exceptions(dataset, tmp_template, token1, token2)
+        short_samples = [s for s in exceptions.samples if handler.count_functions(s.source) == 2]
+        long_samples = [s for s in exceptions.samples if handler.count_functions(s.source) > 2]
+        exceptions_test.extend(copy.deepcopy(short_samples[:int(n_exceptions / 2)] + long_samples[:int(n_exceptions / 2)]))
 
-            exceptions.keep_top(n_exceptions)
+        original_samples = Dataset(samples=short_samples[:int(n_exceptions / 2)] + long_samples[:int(n_exceptions / 2)])
+        adapted_samples = acquire_alternative_targets(original_samples, handler, token1, token2)
+        exceptions_test_adapted.extend(adapted_samples)
 
-            logging.info("Template {}, found {} exceptions.".format(
-                         tmp_template, len(exceptions)))
-            
-            exceptions_alternative_targets = acquire_alternative_targets(exceptions, handler, token1, token2)
-            # Save training set with exceptions
-            dataset_no_exceptions.extend(exceptions_alternative_targets.samples)
-            directory = os.path.join(handler.output_dir, "exceptions/train/")
-            fname = "train_{}-{}.tsv".format(token1, token2)
-            dataset_no_exceptions.save(fname, directory) 
+    dataset.samples = dataset.samples[:n_samples]
+    dataset.extend(exceptions_test_adapted.samples)
+    directory = os.path.join(handler.output_dir, "exceptions/")
+    fname = "train.tsv".format(token1, token2)
+    dataset.save(fname, directory) 
 
-            # Save exceptions adapted target
-            fname = "test_adap_{}-{}.tsv".format(token1, token2)
-            directory = os.path.join(handler.output_dir, "exceptions/adapted/")
-            Dataset(samples=[s for s in exceptions_alternative_targets.samples if handler.count_functions(s.source) == 2]).save(fname, directory)
+    # Save exceptions adapted target
+    fname = "test_adapted.tsv".format(token1, token2)
+    directory = os.path.join(handler.output_dir, "exceptions/")
+    exceptions_test_adapted.samples = [s for s in exceptions_test_adapted.samples if handler.count_functions(s.source) == 2 ]
+    exceptions_test_adapted.save(fname, directory)
 
-            # Save exceptions original target
-            fname = "test_org_{}-{}.tsv".format(token1, token2)
-            directory = os.path.join(handler.output_dir, "exceptions/original/")
-            Dataset(samples=[s for s in exceptions.samples if handler.count_functions(s.source) == 2]).save(filename=fname, folder=directory)
+    # Save exceptions original target
+    fname = "test_original.tsv".format(token1, token2)
+    directory = os.path.join(handler.output_dir, "exceptions/")
+    exceptions_test.samples = [s for s in exceptions_test.samples if handler.count_functions(s.source) == 2 ]
+    exceptions_test.save(filename=fname, folder=directory)
 
 
 if __name__ == '__main__':
@@ -105,4 +112,4 @@ if __name__ == '__main__':
 
         handler = getattr(handlers, config["general"]["handler"])
         handler = handler(config=config, mode="exceptions")
-        exceptions(handler, handler.train, "train")
+        exceptions(handler, handler.train, handler.test)

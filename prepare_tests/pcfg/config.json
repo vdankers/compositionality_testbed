@@ -3,20 +3,32 @@
     {
         "train" : "../../data/pcfg/targets_joined/pcfg_train.txt",
         "test" : "../../data/pcfg/targets_joined/pcfg_test.txt",
-        "evaluate_command" : "python3 ../Machine2/evaluate.py --checkpoint_path ../Machine2/pcfg_model --test_data {}",
         "output_dir" : "../../data/pcfg/targets_joined/experiments",
         "handler": "PCFGHandler"
     },
     "exceptions":
     {
         "template": ".*{} {}.*",
-        "candidates": ["copy", "reverse", "shift", "echo", "append", "prepend"],
-        "replacements": {"copy": "reverse", "reverse":"shift", "shift":"echo", "echo":"copy", "append":"prepend", "prepend":"append"},
-        "percentage": 0.01,
+        "candidates": ["reverse",  "echo", "remove_first", "prepend"],
+        "candidates1" : ["reverse", "prepend", "echo", "prepend"],
+        "candidates2": ["echo", "remove_first", "remove_first" , "reverse"],
+        "replacements": {"reverse":"echo", "echo":"copy", "remove_first" : "append", "prepend":"remove_second"},
+        "percentage": 0.0005,
         "position": 0
     },
     "localism":
     {
         "percentage": 1.0
+    },
+    "substitutivity":
+    {
+        "candidates": ["swap_first_last", "repeat", "append", "remove_second"],
+        "percentage": 0.005
+    },
+    "systematicity":
+    {
+        "candidates": ["copy", "reverse", "shift", "echo", "remove_second", "remove_first", "swap_first_last", "repeat", "append", "prepend"],
+        "inputs_percentage" : 0.005
     }
+
 }
